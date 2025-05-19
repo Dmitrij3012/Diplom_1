@@ -1,5 +1,6 @@
 from unittest.mock import Mock
 import pytest
+import data
 from praktikum.burger import Burger
 
 
@@ -11,9 +12,9 @@ class TestBurger:
         burger.set_buns(mock_bun)
 
         assert burger.bun == mock_bun
-        assert burger.bun.get_name() == 'white bun'
-        assert burger.bun.get_price() == 200
-        assert burger.get_price() == 400
+        assert burger.bun.get_name() == data.BUN_NAME
+        assert burger.bun.get_price() == data.BUN_PRICE
+        assert burger.get_price() == data.BUN_PRICE_IN_BURGER
 
     def test_burger_ingredient(self, mock_filling):
 
@@ -21,9 +22,9 @@ class TestBurger:
         burger.add_ingredient(mock_filling)
 
         assert burger.ingredients == [mock_filling]
-        assert burger.ingredients[0].get_type() == 'filling'
-        assert burger.ingredients[0].get_name() == 'cutlet'
-        assert burger.ingredients[0].get_price() == 300
+        assert burger.ingredients[0].get_type() == data.FILLING
+        assert burger.ingredients[0].get_name() == data.FILLING_NAME
+        assert burger.ingredients[0].get_price() == data.FILLING_PRICE
 
     def test_burger_remove_ingredient(self, mock_sauce):
 
@@ -41,22 +42,16 @@ class TestBurger:
         burger.add_ingredient(mock_filling)
         burger.move_ingredient(1, 0)
 
-        assert burger.ingredients[0].get_type() == 'filling'
-        assert burger.ingredients[0].get_name() == 'cutlet'
-        assert burger.ingredients[0].get_price() == 300
-        assert burger.ingredients[1].get_type() == 'sauce'
-        assert burger.ingredients[1].get_name() == 'chili'
-        assert burger.ingredients[1].get_price() == 200
+        assert burger.ingredients[0].get_type() == data.FILLING
+        assert burger.ingredients[0].get_name() == data.FILLING_NAME
+        assert burger.ingredients[0].get_price() == data.FILLING_PRICE
+        assert burger.ingredients[1].get_type() == data.SAUCE
+        assert burger.ingredients[1].get_name() == data.SAUCE_NAME
+        assert burger.ingredients[1].get_price() == data.SAUCE_PRICE
 
     @pytest.mark.parametrize(
         'bun_name, bun_price, filling_type, filling_name, filling_price,'
-        'sauce_type, sauce_name, sauce_price, burger_price',
-        [
-            ('white bun', 100, 'filling', 'cutlet', 300, 'sauce', 'chili', 150, 650),
-            ('red bun', 150, 'filling', 'sausage', 200, 'sauce', 'sour', 100, 600),
-            ('black bun', 200, 'filling', 'dinosaur', 400, 'sauce', 'hot', 200, 1000)
-        ]
-    )
+        'sauce_type, sauce_name, sauce_price, burger_price', data.PARAMETRIZE_DATA)
     def test_price(
             self, bun_name, bun_price, filling_type, filling_name, filling_price,
             sauce_type, sauce_name, sauce_price, burger_price):
@@ -88,9 +83,4 @@ class TestBurger:
         burger.add_ingredient(mock_filling)
         burger.add_ingredient(mock_sauce)
 
-        assert burger.get_receipt() == ('(==== white bun ====)\n'
-                                        '= filling cutlet =\n'
-                                        '= sauce chili =\n'
-                                        '(==== white bun ====)\n'
-                                        '\n'
-                                        'Price: 900')
+        assert burger.get_receipt() == data.RECEIPT_DATA

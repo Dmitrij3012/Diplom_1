@@ -1,7 +1,16 @@
+from data import SAUCE, SAUCE_NAME, SAUCE_PRICE
+
+
 class TestIngredient:
 
-    def test_ingredient(self, test_ingredient):
+    def test_ingredient_type(self, test_ingredient):
 
-        assert test_ingredient.get_type() == 'sauce'
-        assert test_ingredient.get_name() == 'chili'
-        assert test_ingredient.get_price() == 200
+        assert test_ingredient.get_type() == SAUCE
+
+    def test_ingredient_name(self, test_ingredient):
+
+        assert test_ingredient.get_name() == SAUCE_NAME
+
+    def test_ingredient_price(self, test_ingredient):
+
+        assert test_ingredient.get_price() == SAUCE_PRICE
